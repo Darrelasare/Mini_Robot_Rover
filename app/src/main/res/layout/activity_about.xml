@@ -8,31 +8,20 @@
     tools:context=".About">
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome to the MiniRobot App. User will need to connect the app to the car
-by connecting to the bluetooth device on the raspberry pi.This will allow us to send data from the raspberry pi
-to the app we made on Android Studio. Click next to continue reading instructions."
+        android:text="Welcome to the MiniRobot App. User will need to connect
+the app to the car by using wifi connection. This will allow us to send data from
+the raspberry pi to the app we made on android studio. Click next to continue reading
+instructions."
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.426"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.216" />
+        app:layout_constraintVertical_bias="0.261" />
 
-
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Connect Bluetooth Device"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.478" />
 
     <Button
         android:id="@+id/nextButton"
@@ -41,9 +30,11 @@ to the app we made on Android Studio. Click next to continue reading instruction
         android:text="Next"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.464"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.67" />
+        app:layout_constraintVertical_bias="0.553" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

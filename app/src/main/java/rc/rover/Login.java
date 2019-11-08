@@ -1,67 +1,56 @@
 package rc.rover;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 
 public class Login extends AppCompatActivity {
-    Button btn_lregister, btn_llogin;
-    EditText et_lusername, et_lpassword;
-    rc.rover.DatabaseHelper databaseHelper;
 
+    private EditText txtEmailLogin;
+    private EditText txtPwd;
+    private FirebaseAuth firebaseAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        databaseHelper = new rc.rover.DatabaseHelper(this);
-
-        et_lusername = (EditText)findViewById(R.id.et_lusername);
-        et_lpassword = (EditText)findViewById(R.id.et_lpassword);
-
-        btn_llogin = (Button)findViewById(R.id.btn_llogin);
-        btn_lregister = (Button)findViewById(R.id.btn_lregister);
-
-        configureNextButton();
-
-        btn_lregister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Login.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        btn_llogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String username = et_lusername.getText().toString();
-                String password = et_lpassword.getText().toString();
-
-                Boolean checklogin = databaseHelper.CheckLogin(username, password);
-                if(checklogin == true){
-                    Toast.makeText(getApplicationContext(), "Login Successful", Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(getApplicationContext(), "Invalid username or password", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+        txtEmailLogin = findViewById(R.id.txtEmailLogin);
+        txtPwd = findViewById(R.id.txtPasswordLogin);
+        firebaseAuth = FirebaseAuth.getInstance();
     }
 
-    private void configureNextButton() {
-        Button nextButton = (Button) findViewById(R.id.nextButton);
-        nextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(Login.this, About.class));
-            }
-        });
-    }
+    public void btnUserLogin_Click(View view) {
+        final ProgressDialog progressDialog = ProgressDialog.show(Login.this, "Please wait..", "Processing true..", true);
+        (firebaseAuth.signInWithEmailAndPassword(txtEmailLogin.getText().toString(), txtPwd.getText().toString()))
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
 
+                    public void onComplete(@Nullable Task<AuthResult> task) {
+                        progressDialog.dismiss();
+
+                        if(task.isSuccessful()) {
+                            Toast.makeText(Login.this, "Login Successful", Toast.LENGTH_LONG).show();
+                            Intent i = new Intent(Login.this, About.class);
+                            i.putExtra("Email", firebaseAuth.getCurrentUser().getEmail());
+                            startActivity(i);
+                        }
+                        else {
+                            Log.e("ERROR", task.getException().toString());
+                            Toast.makeText(Login.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+    }
 }
 

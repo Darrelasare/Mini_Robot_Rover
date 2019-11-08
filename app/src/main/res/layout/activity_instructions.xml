@@ -8,17 +8,16 @@
     tools:context=".Instructions">
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="This control car is also a self-driving vehicle. There are control buttons
-on the next page to manually control the car if you wish. The car will automatically stop when
-getting to close to an object, and you can also click the stop button to manually stop the car."
+        android:text="There are control buttons on the next page to manually control the car.The car will calculate the speed and distance as it moves. When getting too close to an object, you can also click the stop button to manually stop the car."
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.216" />
+        app:layout_constraintVertical_bias="0.354" />
 
     <Button
         android:id="@+id/nextButton"
@@ -31,5 +30,8 @@ getting to close to an object, and you can also click the stop button to manuall
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.67" />
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
