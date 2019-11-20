@@ -18,5 +18,6 @@
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="register">Register</string>
     <string name="signout">Signout</string>
+    <string name="skip">Skip</string>
 
 </resources>

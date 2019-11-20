@@ -17,6 +17,7 @@ public class About extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
         configureNextButton();
+        configureSkipButton();
 
 
     }
@@ -32,6 +33,16 @@ public class About extends AppCompatActivity {
 
     }
 
+    private void configureSkipButton() {
+        Button nextButton = (Button) findViewById(R.id.skip);
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(About.this, Controls.class));
+            }
+        });
+
+    }
 
 }
 
