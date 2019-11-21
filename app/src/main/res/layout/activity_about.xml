@@ -15,7 +15,7 @@
         android:text="Welcome to the MiniRobot App. User will need to connect
 the app to the car by using wifi connection. This will allow us to send data from
 the raspberry pi to the app we made on android studio. Click next to continue reading
-instructions, or skip click skip instructions to get to the controls page."
+instructions, or click skip button to get to the controls page."
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.363"
