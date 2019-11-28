@@ -8,37 +8,42 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.github.nkzawa.emitter.Emitter;
 import com.google.firebase.auth.FirebaseAuth;
-import com.github.nkzawa.socketio.client.IO;
-import com.github.nkzawa.socketio.client.Socket;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
-import java.net.URISyntaxException;
+import rc.rover.model.RoverStatus;
 
 
 public class Controls extends AppCompatActivity {
 
-    private FirebaseAuth firebaseAuth;
+    private FirebaseDatabase database;
+    private DatabaseReference myUserRef;
+    private DatabaseReference myRoverRef;
+
     private TextView rpmView;
     private TextView distanceView;
     private View forwardBtn, backwardBtn, leftBtn, rightBtn, stopBtn;
-
-    private Socket mSocket;
-    {
-        try {
-            mSocket = IO.socket("http://192.168.0.29:5000");
-        } catch (URISyntaxException e) {}
-    }
+    private RoverStatus roverStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        roverStatus = new RoverStatus();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_controls);
@@ -85,8 +90,8 @@ public class Controls extends AppCompatActivity {
             }
         });
 
-        mSocket.on("status", onNewMessage);
-        mSocket.connect();
+        getDatabase();
+        retrieveData();
     }
 
     public boolean onCreateOptionsMenu(Menu menu){
@@ -113,41 +118,98 @@ public class Controls extends AppCompatActivity {
             return;
         }
         Log.i("CONTROLS", "Sending action " + action + " with message: " + message);
-        mSocket.emit(action, message);
+
     }
 
-    private Emitter.Listener onNewMessage = new Emitter.Listener() {
-        @Override
-        public void call(final Object... args) {
-            Controls.this.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    JSONObject data = (JSONObject) args[0];
-                    String rpm;
-                    String distance;
-                    try {
-                        rpm = data.getString("rpm");
-                        distance = data.getString("distance");
-                    } catch (JSONException e) {
-                        Log.e("CONTROLS", "Failed while receiving data from rpi: " + data.toString() + "Exception: " + e.toString());
-                        return;
+    private void getDatabase(){
+        // TODO: Find the reference form the database.
+        database = FirebaseDatabase.getInstance();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        myUserRef = database.getReference("users_rovers/" + mAuth.getUid());
+        myRoverRef = database.getReference("users_rovers/mini");
+    }
+
+    private void retrieveData(){
+        // TODO: Get the data on a single node.
+        myUserRef.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                Map<String, Object> statusMap = (Map<String, Object>)dataSnapshot.getValue();
+                roverStatus.setRoverName((String)statusMap.get("roverName"));
+                roverStatus.setDirection(RoverStatus.Direction.valueOf((String)statusMap.get("direction")));
+                roverStatus.setMotion(RoverStatus.Throttle.valueOf((String)statusMap.get("motion")));
+
+                rpmView.setText(Float.toString(roverStatus.getRpm()));
+                distanceView.setText(Float.toString(roverStatus.getDistance()));
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                Map<String, Object> statusMap = (Map<String, Object>)dataSnapshot.getValue();
+                roverStatus.setRoverName((String)statusMap.get("roverName"));
+                roverStatus.setDirection(RoverStatus.Direction.valueOf((String)statusMap.get("direction")));
+                roverStatus.setMotion(RoverStatus.Throttle.valueOf((String)statusMap.get("motion")));
+
+                rpmView.setText(Float.toString(roverStatus.getRpm()));
+                distanceView.setText(Float.toString(roverStatus.getDistance()));
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+
+        // TODO: Get the whole data array on a reference.
+        myUserRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                List<RoverStatus> roverStatuses= new ArrayList<>();
+
+                // TODO: Now data is retrieved, needs to process data.
+                if (dataSnapshot.getValue() != null) {
+
+                    // iterate all the items in the dataSnapshot
+                    for (DataSnapshot a : dataSnapshot.getChildren()) {
+                        RoverStatus rs = new RoverStatus(
+                                a.getValue(RoverStatus.class).getRoverName(),
+                                a.getValue(RoverStatus.class).getDirection(),
+                                a.getValue(RoverStatus.class).getMotion(),
+                                a.getValue(RoverStatus.class).getRpm(),
+                                a.getValue(RoverStatus.class).getDistance()
+                        );
+
+                        roverStatuses.add(rs);  // now all the data is in roverStatuses.
+                        Log.d("CONTROLS", "status " + rs.toString());
                     }
-                    Log.i("CONTROLS", "Received data from rpi: " + data.toString());
-                    rpmView.setText(rpm);
-                    distanceView.setText(distance);
                 }
-            });
-        }
-    };
+                else {
+                    Toast.makeText(getApplicationContext(), "Data Unavailable", Toast.LENGTH_LONG).show();
+                }
+
+            }
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Getting data failed, log a message
+                Log.d("CONTROLS", "Data Loading Canceled/Failed.", databaseError.toException());
+            }
+        });
+    }
+
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-
-        mSocket.disconnect();
-        mSocket.off("status", onNewMessage);
     }
-
 }
 
 

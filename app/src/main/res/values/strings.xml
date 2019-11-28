@@ -20,5 +20,8 @@
     <string name="signout">Signout</string>
     <string name="skip">Skip</string>
     <string name="instructionText">There are control buttons on the next page to manually control the car.The car will calculate the speed and distance as it moves. When getting too close to an object, you can also click the stop button to manually stop the car.</string>
+    <string name="rpm">RPM = </string>
+    <string name="defaultValue">0</string>
+    <string name="dist">DIST = </string>
 
 </resources>

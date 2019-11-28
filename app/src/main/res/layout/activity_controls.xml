@@ -11,75 +11,94 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:gravity="center"
+        android:background="@android:color/background_dark"
+        android:textAlignment="center"
+        android:padding="10dp"
+        android:layout_margin="@android:dimen/app_icon_size"
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:gravity="center"
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/rpmLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                android:layout_weight="0"
-                android:text="RPM=" />
+                android:textColor="@android:color/white"
+                android:text="@string/rpm" />
 
             <TextView
                 android:id="@+id/rpm"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="5"
-                android:text="0" />
+                android:layout_height="30dp"
+                android:textColor="@android:color/white"
+                android:text="@string/defaultValue" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:gravity="center"
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/distanceLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                android:layout_weight="0"
-                android:text="DIST=" />
+                android:textColor="@android:color/white"
+                android:text="@string/dist" />
 
             <TextView
                 android:id="@+id/distance"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="7"
-                android:text="0" />
+                android:layout_height="30dp"
+                android:textColor="@android:color/white"
+                android:text="@string/defaultValue" />
         </LinearLayout>
     </LinearLayout>
 
-    <Button
+    <ImageButton
         android:id="@+id/forwardBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="160dp"
-        android:layout_marginBottom="30dp"
+        android:layout_marginEnd="176dp"
+        android:layout_marginBottom="32dp"
+        android:background="#4DD599"
+        android:src="@drawable/ic_arrow"
+        android:rotation="-90"
         android:text="forward"
         app:layout_constraintBottom_toTopOf="@id/stopBtn"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <Button
+    <ImageButton
         android:id="@+id/backwardBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="160dp"
-        android:layout_marginBottom="190dp"
+        android:src="@drawable/ic_arrow"
+        android:background="#4DD599"
         android:text="backward"
+        android:rotation="90"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.74" />
 
-    <Button
+    <ImageButton
         android:id="@+id/stopBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="73dp"
+        android:layout_height="52dp"
+        android:background="#4DD599"
+        android:src="@drawable/ic_stop_black_24dp"
         android:text="stop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -88,26 +107,31 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.604" />
 
-    <Button
+    <ImageButton
         android:id="@+id/leftBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:src="@drawable/ic_arrow"
+        android:rotation="180"
         android:text="left"
+        android:background="#4DD599"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/rightBtn"
-        app:layout_constraintHorizontal_bias="0.115"
+        app:layout_constraintHorizontal_bias="0.215"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.604" />
 
-    <Button
+    <ImageButton
         android:id="@+id/rightBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:src="@drawable/ic_arrow"
         android:text="right"
+        android:background="#4DD599"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.891"
+        app:layout_constraintHorizontal_bias="0.791"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.604" />
