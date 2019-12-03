@@ -1,140 +1,172 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#4DD599"
-    tools:context=".Controls">
+    tools:context=".Controls"
+    android:weightSum="10"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:background="@android:color/background_dark"
-        android:textAlignment="center"
-        android:padding="10dp"
         android:layout_margin="@android:dimen/app_icon_size"
-        app:layout_constraintTop_toTopOf="parent">
+        android:background="@android:color/background_dark"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:textAlignment="center">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_gravity="center"
             android:gravity="center"
-            app:layout_constraintTop_toTopOf="parent">
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/rpmLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                android:textColor="@android:color/white"
-                android:text="@string/rpm" />
+                android:text="@string/rpm"
+                android:textColor="@android:color/white" />
 
             <TextView
                 android:id="@+id/rpm"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                android:textColor="@android:color/white"
-                android:text="@string/defaultValue" />
+                android:layout_marginStart="5dp"
+                android:text="@string/defaultValue"
+                android:textColor="@android:color/white" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_gravity="center"
             android:gravity="center"
+            android:orientation="horizontal"
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/distanceLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                android:textColor="@android:color/white"
-                android:text="@string/dist" />
+                android:text="@string/dist"
+                android:textColor="@android:color/white" />
 
             <TextView
                 android:id="@+id/distance"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                android:textColor="@android:color/white"
-                android:text="@string/defaultValue" />
+                android:layout_marginStart="5dp"
+                android:text="@string/defaultValue"
+                android:textColor="@android:color/white" />
         </LinearLayout>
     </LinearLayout>
 
-    <ImageButton
-        android:id="@+id/forwardBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="176dp"
-        android:layout_marginBottom="32dp"
-        android:background="#4DD599"
-        android:src="@drawable/ic_arrow"
-        android:rotation="-90"
-        android:text="forward"
-        app:layout_constraintBottom_toTopOf="@id/stopBtn"
-        app:layout_constraintEnd_toEndOf="parent" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:layout_weight="10"
+        android:padding="10dp"
+        android:layout_marginBottom="100dp"
+        android:baselineAligned="false">
 
-    <ImageButton
-        android:id="@+id/backwardBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_arrow"
-        android:background="#4DD599"
-        android:text="backward"
-        android:rotation="90"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.74" />
+        <TableLayout
+            android:id="@+id/controlLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|start"
+            android:layout_weight="10"
+            android:gravity="bottom">
 
-    <ImageButton
-        android:id="@+id/stopBtn"
-        android:layout_width="73dp"
-        android:layout_height="52dp"
-        android:background="#4DD599"
-        android:src="@drawable/ic_stop_black_24dp"
-        android:text="stop"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.604" />
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
 
-    <ImageButton
-        android:id="@+id/leftBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_arrow"
-        android:rotation="180"
-        android:text="left"
-        android:background="#4DD599"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/rightBtn"
-        app:layout_constraintHorizontal_bias="0.215"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.604" />
+                <ImageButton
+                    android:id="@+id/forwardBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#4DD599"
+                    android:contentDescription="@string/forward"
+                    android:rotation="-90"
+                    android:src="@drawable/ic_iconmonstr_arrow_27"
+                    android:text="@string/forward" />
 
-    <ImageButton
-        android:id="@+id/rightBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_arrow"
-        android:text="right"
-        android:background="#4DD599"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.791"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.604" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <ImageButton
+                    android:id="@+id/leftBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="48dp"
+                    android:background="#4DD599"
+                    android:contentDescription="@string/left"
+                    android:rotation="180"
+                    android:src="@drawable/ic_iconmonstr_arrow_27"
+                    android:text="@string/left" />
+
+                <ImageButton
+                    android:id="@+id/rightBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="48dp"
+                    android:background="#4DD599"
+                    android:contentDescription="@string/right"
+                    android:src="@drawable/ic_iconmonstr_arrow_27"
+                    android:text="@string/right" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <ImageButton
+                    android:id="@+id/backwardBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#4DD599"
+                    android:contentDescription="@string/backward"
+                    android:rotation="90"
+                    android:src="@drawable/ic_iconmonstr_arrow_27"
+                    android:text="@string/backward" />
+            </TableRow>
+        </TableLayout>
+
+        <TableLayout
+            android:id="@+id/stopLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_vertical"
+            android:gravity="bottom">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+                <ImageButton
+                    android:id="@+id/stopBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#4DD599"
+                    android:contentDescription="@string/backward"
+                    android:src="@drawable/ic_iconmonstr_stop_6"
+                    android:text="@string/backward" />
+            </TableRow>
+        </TableLayout>
+    </LinearLayout>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
