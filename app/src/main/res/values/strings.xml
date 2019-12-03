@@ -27,5 +27,6 @@
     <string name="right">right</string>
     <string name="left">left</string>
     <string name="forward">forward</string>
+    <string name="stop">stop</string>
 
 </resources>

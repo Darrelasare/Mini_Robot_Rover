@@ -70,7 +70,7 @@ public class Controls extends AppCompatActivity {
                 sendAction(new UserAction("mini", UserAction.Direction.none, UserAction.Throttle.reverse));
             }
             if (view.getId() == R.id.stopBtn) {
-                sendAction(new UserAction("mini", UserAction.Direction.right, UserAction.Throttle.none));
+                sendAction(new UserAction("mini", UserAction.Direction.none, UserAction.Throttle.none));
             }
         };
 
@@ -99,7 +99,7 @@ public class Controls extends AppCompatActivity {
     private void getDatabase(){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         myRoverRef = database.getReference("rover_status/mini");
-        myUserRef = database.getReference("/user_action/");
+        myUserRef = database.getReference("user_action/");
     }
 
     private void retrieveData(){

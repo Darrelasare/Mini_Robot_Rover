@@ -161,9 +161,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="#4DD599"
-                    android:contentDescription="@string/backward"
+                    android:contentDescription="@string/stop"
                     android:src="@drawable/ic_iconmonstr_stop_6"
-                    android:text="@string/backward" />
+                    android:text="@string/stop" />
             </TableRow>
         </TableLayout>
     </LinearLayout>
