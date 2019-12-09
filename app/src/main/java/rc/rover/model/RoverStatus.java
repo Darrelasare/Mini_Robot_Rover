@@ -5,6 +5,9 @@ public class RoverStatus {
     private float rpm;
     private float distance;
 
+    private UserAction.Throttle throttle = UserAction.Throttle.none;;
+    private UserAction.Direction direction = UserAction.Direction.none;
+
     public RoverStatus() {}
 
     public RoverStatus(String roverName, float rpm, float distance) {
@@ -35,6 +38,22 @@ public class RoverStatus {
 
     public void setRoverName(String roverName) {
         this.roverName = roverName;
+    }
+
+    public UserAction.Throttle getThrottle() {
+        return throttle;
+    }
+
+    public void setThrottle(UserAction.Throttle throttle) {
+        this.throttle = throttle;
+    }
+
+    public UserAction.Direction getDirection() {
+        return direction;
+    }
+
+    public void setDirection(UserAction.Direction direction) {
+        this.direction = direction;
     }
 
     @Override
