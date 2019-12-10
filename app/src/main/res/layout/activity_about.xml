@@ -10,12 +10,10 @@
 
     <TextView
         android:id="@+id/textView3"
-        android:layout_width="393dp"
-        android:layout_height="83dp"
-        android:text="Welcome to the MiniRobot App. User will need to connect
-the app to the car by using wifi connection. This will allow us to send data from
-the raspberry pi to the app we made on android studio. Click next to continue reading
-instructions, or click skip button to get to the controls page."
+        android:layout_width="400dp"
+        android:layout_height="186dp"
+        android:text="@string/welcomeText"
+        android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.363"
@@ -37,14 +35,13 @@ instructions, or click skip button to get to the controls page."
 
     <ImageView
         android:id="@+id/imageView5"
-        android:layout_width="370dp"
-        android:layout_height="477dp"
+        android:layout_width="380dp"
+        android:layout_height="343dp"
+        android:layout_marginBottom="48dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.483"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.869"
         app:srcCompat="@drawable/lighter" />
 
     <Button
