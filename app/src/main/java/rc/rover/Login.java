@@ -18,6 +18,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 
 public class Login extends AppCompatActivity {
+    private long backPressedTime;
 
     private EditText txtEmailLogin;
     private EditText txtPwd;
@@ -51,6 +52,17 @@ public class Login extends AppCompatActivity {
                         }
                     }
                 });
+    }
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
+        if (backPressedTime + 2000 > System.currentTimeMillis()){
+            super.onBackPressed();
+            return;
+        }else{
+            Toast.makeText(getBaseContext(), "Press Back again to exit", Toast.LENGTH_SHORT).show();
+        }
+        backPressedTime = System.currentTimeMillis();
     }
 }
 
