@@ -18,18 +18,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.Random;
-
 import rc.rover.model.RoverStatus;
 import rc.rover.model.SensorTimer;
 import rc.rover.model.UserAction;
 
 
 public class Controls extends AppCompatActivity {
-
-    private final Float DISTANCE_INCREMENT = 5f;
-    private final Float RPM_MAX_VALUE = 1000f;
-    private final Float RPM_INCREMENT = 10f;
 
     private DatabaseReference myUserRef;
     private DatabaseReference myRoverRef;
@@ -83,70 +77,6 @@ public class Controls extends AppCompatActivity {
         leftBtn.setOnClickListener(listener);
         rightBtn.setOnClickListener(listener);
         stopBtn.setOnClickListener(listener);
-
-        //user the timer to fake the car movement
-        eventTimer = new SensorTimer("MOVE_CAR", 100, new Runnable() {
-            @Override
-            public void run() {
-                if (roverStatus != null && userAction != null) {
-                    Float rpm = roverStatus.getRpm(), originalRpm = roverStatus.getRpm();
-                    Float distance = roverStatus.getDistance(), originalDistance = roverStatus.getDistance();
-
-                    //detect 'forward' and 'backward' press and increase and decrease RPM and distance
-                    switch (userAction.getMotion())
-                    {
-                        case forward:
-                            if (rpm < RPM_MAX_VALUE) {
-                                rpm += RPM_INCREMENT;
-                                distance -= DISTANCE_INCREMENT;
-                            }
-                            distance -= DISTANCE_INCREMENT;
-                            roverStatus.setThrottle(UserAction.Throttle.forward);
-                            break;
-                        case reverse:
-                            if (rpm > -RPM_MAX_VALUE) {
-                                rpm -= RPM_INCREMENT;
-                                distance += DISTANCE_INCREMENT;
-                            }
-                            distance += DISTANCE_INCREMENT;
-                            roverStatus.setThrottle(UserAction.Throttle.reverse);
-                            break;
-                        case none:
-                            rpm = 0f;
-                            if (roverStatus.getThrottle() == UserAction.Throttle.forward) {
-                                distance -= DISTANCE_INCREMENT;
-                            } else if (roverStatus.getThrottle() == UserAction.Throttle.reverse) {
-                                distance += DISTANCE_INCREMENT;
-                            }
-                            break;
-                    }
-
-                    //keep the distance at 0 for collision because you can't be inside a wall
-                    if (distance < 0) {
-                        distance = 0f;
-                    }
-
-                    //detect direction change and randomize distance
-                    if (userAction.getDirection() != UserAction.Direction.none) {
-                        //update the distance from the wall if the direction changed
-                        if (!userAction.getDirection().equals(roverStatus.getDirection())) {
-                            //user the random class
-                            Random r = new Random();
-                            distance = r.nextInt(1000 + 1) + 500f;
-                        }
-                        roverStatus.setDirection(userAction.getDirection());
-                    }
-
-                    //send the changed values to firebase
-                    if (Math.abs(rpm) < 2000 && Math.abs(distance) < 2000) {
-                        //write the new rpm and distance to firebase
-                        if (!originalRpm.equals(rpm) || !originalDistance.equals(distance)) {
-                            myRoverRef.setValue(new RoverStatus("mini", rpm, distance));
-                        }
-                    }
-                }
-            }
-        });
 
         //load the firebase database values and detect changes
         getDatabase();
