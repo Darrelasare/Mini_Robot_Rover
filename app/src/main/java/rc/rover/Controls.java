@@ -18,8 +18,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import rc.rover.model.RoverStatus;
-import rc.rover.model.SensorTimer;
 import rc.rover.model.UserAction;
 
 
@@ -32,9 +34,7 @@ public class Controls extends AppCompatActivity {
     private TextView rpmView;
     private TextView distanceView;
     private View forwardBtn, backwardBtn, leftBtn, rightBtn, stopBtn;
-    private UserAction userAction;
     private RoverStatus roverStatus;
-    SensorTimer eventTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,10 +80,16 @@ public class Controls extends AppCompatActivity {
 
         //load the firebase database values and detect changes
         getDatabase();
-        retrieveData();
+        resetDataForUser();
+        setUpDataListeners();
+    }
 
-        //start the event timer
-        eventTimer.start();
+    public void resetDataForUser() {
+        if (firebaseAuth.getUid() != null) {
+            myRoverRef.setValue(new RoverStatus());
+        } else {
+            Log.w("CONTROLS", "Unable to reset data. Please login first");
+        }
     }
 
     /**
@@ -98,6 +104,11 @@ public class Controls extends AppCompatActivity {
         if (firebaseAuth.getUid() != null) {
             //this line updates the firebase user node with the user action
             myUserRef.child(firebaseAuth.getUid()).setValue(action);
+            Map<String, Object> status = new HashMap<>();
+            status.put("throttle", action.getMotion());
+            status.put("direction", action.getDirection());
+            status.put("user", firebaseAuth.getUid());
+            myRoverRef.updateChildren(status);
         } else {
             Log.w("CONTROLS", "Unable to send action. Please login first");
         }
@@ -114,7 +125,7 @@ public class Controls extends AppCompatActivity {
         myUserRef = database.getReference("user_action/");
     }
 
-    private void retrieveData(){
+    private void setUpDataListeners(){
         //the rover information is stored on one-node. Get the RPM and distance anytime it changes
         myRoverRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -140,21 +151,6 @@ public class Controls extends AppCompatActivity {
                 System.out.println("The read for rover status failed: " + databaseError.getCode());
             }
         });
-
-        //if the user is logged in, read the user action and increase robot speed
-        if (firebaseAuth.getUid() != null) {
-            myUserRef.child(firebaseAuth.getUid()).addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    userAction = dataSnapshot.getValue(UserAction.class);
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                    System.out.println("The read for user action for user " + firebaseAuth.getUid() + " failed: " + databaseError.getCode());
-                }
-            });
-        }
     }
 
     public boolean onCreateOptionsMenu(Menu menu){
@@ -180,7 +176,6 @@ public class Controls extends AppCompatActivity {
 
     @Override
     public void onDestroy() {
-        eventTimer.stop();
         super.onDestroy();
     }
 }

@@ -7,6 +7,7 @@ public class RoverStatus {
 
     private UserAction.Throttle throttle = UserAction.Throttle.none;;
     private UserAction.Direction direction = UserAction.Direction.none;
+    private String user;
 
     public RoverStatus() {}
 
@@ -63,5 +64,13 @@ public class RoverStatus {
                 ", rpm=" + rpm +
                 ", distance=" + distance +
                 '}';
+    }
+
+    public void setUser(String currentUser) {
+        this.user = currentUser;
+    }
+
+    public String getUser() {
+        return user;
     }
 }
