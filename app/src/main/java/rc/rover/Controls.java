@@ -18,6 +18,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -140,8 +141,8 @@ public class Controls extends AppCompatActivity {
                 roverStatus.setRpm(s.getRpm());
                 roverStatus.setRoverName(s.getRoverName());
 
-                rpmView.setText(Float.toString(roverStatus.getRpm()));
-                distanceView.setText(Float.toString(roverStatus.getDistance()));
+                rpmView.setText(new DecimalFormat("#0.00").format(roverStatus.getRpm()));
+                distanceView.setText(new DecimalFormat("#0.00").format(roverStatus.getDistance()));
 
                 Log.d("STATUS", "status " + roverStatus.toString());
             }
